@@ -4,8 +4,8 @@ import "@/app/globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Spam Analyzer",
-  description: "Simple spam analyzer tool to analyze your email content.",
+  title: "Spam Detector",
+  description: "Simple spam detector tool to analyze your email content.",
 };
 
 export default function RootLayout({ children }) {

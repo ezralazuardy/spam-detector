@@ -7,6 +7,6 @@
 
 A simple text-based spam detector using [Gemini API](https://gemini.google.com).
 
-🔗 https://spam-detector.vercel.app
+🔗 https://spamdetector.vercel.app
 
 > Written in [Typescript](https://www.typescriptlang.org) using [Next](https://nextjs.org). Powered by [Vercel](https://vercel.com) and [Gemini](https://gemini.google.com).
