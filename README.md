@@ -3,7 +3,7 @@
   <img alt="CodeQL Analysis" src="https://github.com/ezralazuardy/profile/actions/workflows/github-code-scanning/codeql/badge.svg" />
 </div>
 
-## spam detector
+## 🐞 spam detector
 
 A simple text-based spam detector using [Gemini API](https://gemini.google.com).
 

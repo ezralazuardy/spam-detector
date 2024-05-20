@@ -3,26 +3,26 @@
 import { useState } from "react";
 import Form from "@/components/form";
 import Loader from "@/components/loader";
+import Result from "@/components/result";
 
 export default function Page() {
   const [formVisible, showForm] = useState(true);
   const [loadingVisible, showLoading] = useState(false);
   const [resultVisible, showResult] = useState(false);
+  const [result, setResult] = useState({});
 
   async function handleSubmit(event) {
     event.preventDefault();
 
     // set visibility
-    showForm(true);
-    showLoading(true);
-    showResult(false);
+    showForm(false);
+    showLoading(false);
+    showResult(true);
 
     // process data
     const formData = new FormData(event.target);
     const email = formData.get("email");
     const text = formData.get("text");
-
-    console.log(email, text);
   }
 
   return (
@@ -44,6 +44,7 @@ export default function Page() {
         </div>
       </main>
       <Loader show={loadingVisible} />
+      <Result show={resultVisible} result={result} />
     </>
   );
 }
