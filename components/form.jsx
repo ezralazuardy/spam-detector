@@ -82,14 +82,14 @@ export default function Form(props) {
               </label>
               <Textarea
                 className="w-full min-h-40 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-inter"
+                placeholder="Enter the text content that you want to analyze"
+                defaultValue="Hi Ezra, I accidentally locked myself out of my computer and all my files are encrypted! Please send me some money via PayPal so I can fix it. Thanks, Leon."
                 id="text"
                 type="text"
                 name="text"
-                placeholder="Enter the text content that you want to analyze"
                 maxLength={1000}
                 rows={5}
                 required={true}
-                value="Hi Ezra, I accidentally locked myself out of my computer and all my files are encrypted! Please send me some money via PayPal so I can fix it. Thanks, Leon."
               />
               <p className="text-gray-500 text-sm mt-1 font-inter">
                 Maximum 1000 characters. We will remove any unnecessary
