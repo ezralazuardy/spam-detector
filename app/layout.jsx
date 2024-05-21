@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "@/app/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -13,6 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <div className="flex flex-col min-h-screen bg-gray-100">{children}</div>
+        <Analytics />
       </body>
     </html>
   );
