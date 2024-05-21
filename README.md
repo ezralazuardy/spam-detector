@@ -1,6 +1,6 @@
 <div>
-  <img alt="Vercel" src="https://deploy-badge.vercel.app?url=https://lazuardy.vercel.app&logo=vercel&name=vercel" />
-  <img alt="CodeQL Analysis" src="https://github.com/ezralazuardy/profile/actions/workflows/github-code-scanning/codeql/badge.svg" />
+  <img alt="Vercel" src="https://deploy-badge.vercel.app?url=https://spam-detector.lazuardy.tech&logo=vercel&name=vercel" />
+  <img alt="CodeQL Analysis" src="https://github.com/ezralazuardy/spam-detector/actions/workflows/github-code-scanning/codeql/badge.svg" />
 </div>
 
 ## 🐞 spam detector
