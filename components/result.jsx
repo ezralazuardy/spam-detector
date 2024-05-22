@@ -98,7 +98,8 @@ function DialogText({ text }) {
         <DialogHeader>
           <DialogTitle>Original Text Content</DialogTitle>
           <DialogDescription className="pt-2">
-            This original text before we modified it for analysis purposes.
+            This is the original text before we modified it for analysis
+            purposes.
           </DialogDescription>
           <div className="pt-2">
             <Textarea
