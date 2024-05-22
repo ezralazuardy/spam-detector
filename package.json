@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ezralazuardy/gem": "^0.0.3",
+    "@ezralazuardy/gem": "0.0.7",
     "@google/generative-ai": "^0.11.3",
     "@next/env": "^14.2.3",
     "@radix-ui/react-avatar": "^1.0.4",
