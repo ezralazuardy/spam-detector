@@ -1,15 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import Error from "@/components/error";
 import Loader from "@/components/loader";
 import Result from "@/components/result";
 import Disclaimer from "@/components/disclaimer";
-import { toast } from "sonner";
+import RandomTextButton from "@/components/random-text-button";
 
 export default function Form(props) {
+  const maxCharacters = parseInt(
+    process.env.NEXT_PUBLIC_MAXIMUM_CHARACTER ?? 5000,
+  );
   const analyze = props?.analyze;
   const [errorVisible, showError] = useState(false);
   const [formVisible, showForm] = useState(true);
@@ -28,56 +32,61 @@ export default function Form(props) {
     event.preventDefault();
 
     showLoading(true);
-    setTimeout(async () => {
-      showError(false);
-      showForm(false);
-      showResult(false);
-    }, 1000);
 
     try {
       const response = await analyze(new FormData(event.target));
       setResult(response);
     } catch (e) {
       console.error(e);
+
+      if (e?.message?.includes("429 Too Many Requests")) {
+        toast.error("Too many request! Please try again later.");
+        setTimeout(() => {
+          showForm(true);
+          showLoading(false);
+          showResult(false);
+          showError(false);
+        }, 1000);
+        return;
+      }
+
+      showLoading(false);
       showError(true);
       setTimeout(() => {
-        showLoading(false);
         showForm(false);
         showResult(false);
-      }, 1000);
-
+      }, 600);
       return;
     }
 
     showResult(true);
     setTimeout(() => {
+      showLoading(false);
       showError(false);
       showForm(false);
-      showLoading(false);
-    }, 1000);
+    }, 600);
   }
 
-  async function handleGenerateRandomSpamMessage() {
+  async function handleGenerateRandomSpamMessage(language = "English") {
     toast.promise(
       async () => {
-        try {
-          showLoadingRandomSpamMessageVisible(true);
-          const response = await getRandomSpamMessage();
-          setTextContent(response.message);
-        } catch (e) {
-          console.error(e);
-        }
+        showLoadingRandomSpamMessageVisible(true);
+        const response = await getRandomSpamMessage(language);
+        setTextContent(response.message);
       },
       {
         loading: "Asking AI to generate a random text...",
         success: () => {
           showLoadingRandomSpamMessageVisible(false);
-          toast("Random text successfully generated.", {
-            type: "success",
-          });
+          return "Random text successfully generated.";
         },
-        error: () => {
-          toast("Error has happened. Please try again.", { type: "error" });
+        error: (e) => {
+          console.error(e);
+          showLoadingRandomSpamMessageVisible(false);
+          if (e.message.includes("429 Too Many Requests")) {
+            return "Too many request! Please try again later.";
+          }
+          return "Error has happened. Please try again.";
         },
       },
     );
@@ -90,11 +99,12 @@ export default function Form(props) {
   async function resetForm() {
     showResult(false);
     showForm(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setTimeout(() => {
       showError(false);
       showLoading(false);
       setResult(null);
-    }, 1000);
+    }, 600);
   }
 
   return (
@@ -102,20 +112,20 @@ export default function Form(props) {
       <div
         className={`flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 ${formVisible ? `visible` : `invisible`}`}
       >
-        <div className="w-full max-w-md space-y-10">
+        <div className="w-full max-w-md space-y-8">
           <div>
             <h2 className="text-2xl font-bold mb-2 text-gray-800 font-inter">
               Analyze Your Text
             </h2>
             <p className="text-gray-600 font-inter">
-              We use Artificial Intelligence to analyze a text content from
-              spam, malicious, or violent content.
+              We use Artificial Intelligence to analyze a text from spam,
+              malicious, or violent content based on sentiment and keywords.
             </p>
           </div>
-          <form className="space-y-2" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div className="pb-10">
               <label
-                className="mb-2 block text-gray-700 font-medium font-inter"
+                className="mb-2 block text-gray-800 font-bold text-md font-inter"
                 htmlFor="text"
               >
                 Text Content
@@ -128,26 +138,25 @@ export default function Form(props) {
                 id="text"
                 type="text"
                 name="text"
-                maxLength={1000}
-                rows={5}
+                maxLength={maxCharacters}
+                rows={10}
                 required
               />
-              <p className="text-gray-500 text-sm mt-1">
-                Maximum 1000 characters. We will remove any unnecessary
-                whitespaces. We support any kind of languages.
+              <p className="text-gray-500 text-xs mt-2">
+                Maximum {maxCharacters} characters. We will remove any
+                unnecessary whitespaces. We support any kind of languages.
               </p>
             </div>
             <div>
-              <Button
+              <RandomTextButton
                 className="w-full mb-4"
-                variant="outline"
-                onClick={handleGenerateRandomSpamMessage}
-                disabled={loadingRandomSpamMessageVisible}
-              >
-                {loadingRandomSpamMessageVisible
-                  ? `Generating Random Text...`
-                  : `Generate Random Text`}
-              </Button>
+                handleGenerateRandomSpamMessage={
+                  handleGenerateRandomSpamMessage
+                }
+                loadingRandomSpamMessageVisible={
+                  loadingRandomSpamMessageVisible
+                }
+              />
               <Button className="w-full mb-4" type="submit">
                 Analyze
               </Button>

@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import ConfidenceRate from "@/components/confidence-rate";
 import Disclaimer from "@/components/disclaimer";
-import Link from "next/link";
 
 export default function Result(props) {
   const resetForm = props?.resetForm;
@@ -19,13 +18,15 @@ export default function Result(props) {
   const category = result?.category ?? "Unknown";
   const confidence = result?.confidence ?? 0;
   const input = result?.input ?? "";
+  const inputLanguage = result?.input_language ?? "English";
+  const inputTranslation = result?.input_translation ?? "";
   const reason = result?.reason ?? "";
   const suggestion = result?.suggestion ?? "";
 
   return (
     <>
       <div
-        className={`flex h-screen w-screen items-center justify-center bg-white absolute ${show ? `visible` : `invisible`}`}
+        className={`flex w-screen min-h-screen items-center justify-center absolute py-12 bg-white ${show ? `visible` : `invisible`}`}
       >
         <div className="w-full max-w-md space-y-8">
           <div>
@@ -40,20 +41,36 @@ export default function Result(props) {
           <div>
             <ConfidenceRate percentage={confidence} />
           </div>
+          {inputLanguage === "English" ? null : (
+            <div>
+              <h2 className="text-xl font-bold mb-2 text-gray-800 font-inter">
+                Translation
+              </h2>
+              <p className="text-gray-600 text-sm">
+                {inputTranslation === "" || inputTranslation === "N/A"
+                  ? "No translation available."
+                  : inputTranslation}
+              </p>
+            </div>
+          )}
           <div>
             <h2 className="text-xl font-bold mb-2 text-gray-800 font-inter">
               Reason
             </h2>
-            <p className="text-gray-600 font-inter">
-              {reason === "" ? "No reason available." : reason}
+            <p className="text-gray-600 text-sm">
+              {reason === "" || reason === "N/A"
+                ? "No reason available."
+                : reason}
             </p>
           </div>
           <div>
             <h2 className="text-xl font-bold mb-2 text-gray-800 font-inter">
               Suggestion
             </h2>
-            <p className="text-gray-600 font-inter">
-              {suggestion === "" ? "No suggestion available." : suggestion}
+            <p className="text-gray-600 text-sm">
+              {suggestion === "" || suggestion === "N/A"
+                ? "No suggestion available."
+                : suggestion}
             </p>
           </div>
           <Disclaimer />
@@ -78,23 +95,20 @@ function DialogText({ text }) {
         </Button>
       </DialogTrigger>
       <DialogContent className="bg-white dark:bg-white text-gray-900 p-6 rounded-md shadow-lg w-[600px] max-w-full">
-        <div className="flex items-center space-x-2">
-          <DialogHeader>
-            <DialogTitle>Original Text Content</DialogTitle>
-            <DialogDescription className="pt-2">
-              This original text was automatically modified for analysis. We
-              translated it to English and removed any unnecessary whitespaces.
-            </DialogDescription>
-            <div className="pt-4">
-              <Textarea
-                className="flex-1 bg-white text-gray-900 font-mono resize-none !ring-transparent"
-                readOnly
-                rows={8}
-                value={text}
-              />
-            </div>
-          </DialogHeader>
-        </div>
+        <DialogHeader>
+          <DialogTitle>Original Text Content</DialogTitle>
+          <DialogDescription className="pt-2">
+            This original text before we modified it for analysis purposes.
+          </DialogDescription>
+          <div className="pt-2">
+            <Textarea
+              className="flex-1 bg-white text-gray-900 font-mono resize-none !ring-transparent"
+              readOnly
+              rows={10}
+              value={text}
+            />
+          </div>
+        </DialogHeader>
       </DialogContent>
     </Dialog>
   );
