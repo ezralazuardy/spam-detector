@@ -70,9 +70,13 @@ export default function Form(props) {
   async function handleGenerateRandomSpamMessage(language = "English") {
     toast.promise(
       async () => {
-        showLoadingRandomSpamMessageVisible(true);
-        const response = await getRandomSpamMessage(language);
-        setTextContent(response.message);
+        try {
+          showLoadingRandomSpamMessageVisible(true);
+          const response = await getRandomSpamMessage(language);
+          setTextContent(response.message);
+        } catch (e) {
+          throw e;
+        }
       },
       {
         loading: "Asking AI to generate a random text...",
