@@ -5,8 +5,10 @@
 
 ## 🐞 spam detector
 
-A simple text-based spam detector using [Gemini API](https://gemini.google.com).
+A simple, AI-based detector that analyze spam, malicious, and violent content or activity based on sentiment and keywords.
 
 🔗 https://spam-detector.lazuardy.tech
+
+<img width="1439" alt="image" src="https://github.com/ezralazuardy/spam-detector/assets/24422019/91f3935a-e828-48b5-8dd1-7459f567cc58">
 
 > Written in [Typescript](https://www.typescriptlang.org) using [Next](https://nextjs.org). Powered by [Vercel](https://vercel.com) and [Gemini](https://gemini.google.com).
