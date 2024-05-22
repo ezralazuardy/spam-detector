@@ -11,6 +11,6 @@ A simple, AI-based detector that analyze spam, malicious, and violent content or
 
 <img width="1439" alt="image" src="https://github.com/ezralazuardy/spam-detector/assets/24422019/91f3935a-e828-48b5-8dd1-7459f567cc58">
 
-<br/>
+<br/><br/>
 
 > Written in [Typescript](https://www.typescriptlang.org) using [Next](https://nextjs.org). Powered by [Vercel](https://vercel.com) and [Gemini](https://gemini.google.com).
