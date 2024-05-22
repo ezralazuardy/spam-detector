@@ -12,7 +12,7 @@ import RandomTextButton from "@/components/random-text-button";
 
 export default function Form(props) {
   const maxCharacters = parseInt(
-    process.env.NEXT_PUBLIC_MAXIMUM_CHARACTER ?? 5000,
+    process.env.NEXT_PUBLIC_MAXIMUM_CHARACTER ?? 1000,
   );
   const analyze = props?.analyze;
   const [errorVisible, showError] = useState(false);
