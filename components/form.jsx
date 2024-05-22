@@ -41,12 +41,12 @@ export default function Form(props) {
 
       if (e?.message?.includes("429 Too Many Requests")) {
         toast.error("Too many request! Please try again later.");
+        showForm(true);
         setTimeout(() => {
-          showForm(true);
           showLoading(false);
           showResult(false);
           showError(false);
-        }, 1000);
+        }, 2000);
         return;
       }
 

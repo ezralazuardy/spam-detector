@@ -6,6 +6,29 @@ import {
 } from "@/components/ui/context-menu";
 import { Button } from "@/components/ui/button";
 
+const languages = [
+  {
+    name: "English",
+    label: "🇺🇸 English",
+  },
+  {
+    name: "Indonesian",
+    label: "🇮🇩 Bahasa Indonesia",
+  },
+  {
+    name: "Japanese",
+    label: "🇯🇵 Japanese",
+  },
+  {
+    name: "Korean",
+    label: "🇰🇷 Korean",
+  },
+  {
+    name: "Russian",
+    label: "🇷🇺 Russian",
+  },
+];
+
 export default function RandomTextButton({
   handleGenerateRandomSpamMessage,
   loadingRandomSpamMessageVisible,
@@ -24,27 +47,16 @@ export default function RandomTextButton({
             : `Generate Random Text`}
         </Button>
       </ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuItem
-          onClick={() => handleGenerateRandomSpamMessage("English")}
-        >
-          in 🇺🇸 English
-        </ContextMenuItem>
-        <ContextMenuItem
-          onClick={() => handleGenerateRandomSpamMessage("Indonesia")}
-        >
-          in 🇮🇩 Bahasa Indonesia
-        </ContextMenuItem>
-        <ContextMenuItem
-          onClick={() => handleGenerateRandomSpamMessage("Japanese")}
-        >
-          in 🇯🇵 Japanese
-        </ContextMenuItem>
-        <ContextMenuItem
-          onClick={() => handleGenerateRandomSpamMessage("Korean")}
-        >
-          in 🇰🇷 Korean
-        </ContextMenuItem>
+      <ContextMenuContent className="dark:text-gray-700 dark:bg-white dark:border-0">
+        {languages.map((language) => (
+          <ContextMenuItem
+            key={language.name}
+            className="dark:focus:text-gray-700 dark:focus:bg-gray-200"
+            onClick={() => handleGenerateRandomSpamMessage(language.name)}
+          >
+            in {language.label}
+          </ContextMenuItem>
+        ))}
       </ContextMenuContent>
     </ContextMenu>
   );
