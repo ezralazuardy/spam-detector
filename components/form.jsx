@@ -161,9 +161,13 @@ export default function Form(props) {
                   loadingRandomSpamMessageVisible
                 }
               />
-              <Button className="w-full mb-4" type="submit">
+              <Button className="w-full mb-5" type="submit">
                 Analyze
               </Button>
+              <p className="mb-4 text-gray-500 text-xs font-mono">
+                Right-click the <b>Generate Random Text</b> button to generate
+                random text with different language.
+              </p>
               <Disclaimer />
             </div>
           </form>
