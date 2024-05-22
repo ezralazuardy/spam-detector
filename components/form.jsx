@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Error from "@/components/error";
 import Loader from "@/components/loader";
 import Result from "@/components/result";
@@ -14,6 +15,13 @@ export default function Form(props) {
   const [loadingVisible, showLoading] = useState(false);
   const [resultVisible, showResult] = useState(false);
   const [result, setResult] = useState(null);
+
+  const getRandomSpamMessage = props?.getRandomSpamMessage;
+  const [loadingRandomSpamMessageVisible, showLoadingRandomSpamMessageVisible] =
+    useState(false);
+  const [textContent, setTextContent] = useState(
+    "Hi Ezra, I accidentally locked myself out of my computer and all my files are encrypted! Please send me some money via PayPal, so I can fix it. Thanks, Leon.",
+  );
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -29,6 +37,7 @@ export default function Form(props) {
       const response = await analyze(new FormData(event.target));
       setResult(response);
     } catch (e) {
+      console.error(e);
       showError(true);
       setTimeout(() => {
         showLoading(false);
@@ -45,6 +54,21 @@ export default function Form(props) {
       showForm(false);
       showLoading(false);
     }, 1000);
+  }
+
+  async function handleGenerateRandomSpamMessage() {
+    showLoadingRandomSpamMessageVisible(true);
+    try {
+      const response = await getRandomSpamMessage();
+      setTextContent(response.message);
+    } catch (e) {
+      console.error(e);
+    }
+    showLoadingRandomSpamMessageVisible(false);
+  }
+
+  async function handleTextContentChange(event) {
+    setTextContent(event.target.value);
   }
 
   async function resetForm() {
@@ -83,26 +107,41 @@ export default function Form(props) {
               <Textarea
                 className="w-full min-h-40 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-inter"
                 placeholder="Enter the text content that you want to analyze"
-                defaultValue="Hi Ezra, I accidentally locked myself out of my computer and all my files are encrypted! Please send me some money via PayPal so I can fix it. Thanks, Leon."
+                value={textContent}
+                onChange={handleTextContentChange}
                 id="text"
                 type="text"
                 name="text"
                 maxLength={1000}
                 rows={5}
-                required={true}
+                required
               />
-              <p className="text-gray-500 text-sm mt-1 font-inter">
+              <p className="text-gray-500 text-sm mt-1">
                 Maximum 1000 characters. We will remove any unnecessary
                 whitespaces. We support any kind of languages.
               </p>
             </div>
-            <Button className="w-full" type="submit">
-              Analyze
-            </Button>
             <div>
-              <p className="text-gray-500 text-xs mt-1 font-inter">
+              <Button
+                className="w-full mb-4"
+                variant="outline"
+                onClick={handleGenerateRandomSpamMessage}
+                disabled={loadingRandomSpamMessageVisible}
+              >
+                {loadingRandomSpamMessageVisible
+                  ? `Generating Random Text...`
+                  : `Generate Random Text`}
+              </Button>
+              <Button className="w-full mb-4" type="submit">
+                Analyze
+              </Button>
+              <p className="text-gray-500 text-xs font-mono">
                 The result may display inaccurate information, so please
-                double-check.
+                double-check. If you have any questions, please{" "}
+                <Link href="mailto:ezra@lazuardy.tech" className="underline">
+                  contact me
+                </Link>
+                .
               </p>
             </div>
           </form>

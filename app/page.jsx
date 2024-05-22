@@ -1,4 +1,4 @@
-import { analyzeSpam } from "@/lib/gemini/model";
+import { analyzeSpam, generateRandomSpamMessage } from "@/lib/gemini/model";
 import Form from "@/components/form";
 
 export default function Page() {
@@ -7,5 +7,10 @@ export default function Page() {
     return await analyzeSpam(formData.get("text"));
   }
 
-  return <Form analyze={analyze} />;
+  async function getRandomSpamMessage() {
+    "use server";
+    return await generateRandomSpamMessage();
+  }
+
+  return <Form analyze={analyze} getRandomSpamMessage={getRandomSpamMessage} />;
 }

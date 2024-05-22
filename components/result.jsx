@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import ConfidenceRate from "@/components/confidence-rate";
+import Link from "next/link";
 
 export default function Result(props) {
   const resetForm = props?.resetForm;
@@ -54,7 +55,15 @@ export default function Result(props) {
               {suggestion === "" ? "No suggestion available." : suggestion}
             </p>
           </div>
-          <div className="pt-4">
+          <p className="text-gray-500 text-xs font-mono">
+            The result above display inaccurate information, so please
+            double-check. If you have any questions, please{" "}
+            <Link href="mailto:ezra@lazuardy.tech" className="underline">
+              contact me
+            </Link>
+            .
+          </p>
+          <div>
             <DialogText text={input} />
             <Button className="w-full" onClick={resetForm}>
               Analyze Other Text
