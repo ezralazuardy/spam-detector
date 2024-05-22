@@ -7,9 +7,9 @@ export default function Page() {
     return await analyzeSpam(formData.get("text"));
   }
 
-  async function getRandomSpamMessage() {
+  async function getRandomSpamMessage(language = "English") {
     "use server";
-    return await generateRandomSpamMessage();
+    return await generateRandomSpamMessage(language);
   }
 
   return <Form analyze={analyze} getRandomSpamMessage={getRandomSpamMessage} />;

@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import Error from "@/components/error";
 import Loader from "@/components/loader";
 import Result from "@/components/result";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import Disclaimer from "@/components/disclaimer";
+import { toast } from "sonner";
 
 export default function Form(props) {
   const analyze = props?.analyze;
@@ -57,14 +58,29 @@ export default function Form(props) {
   }
 
   async function handleGenerateRandomSpamMessage() {
-    showLoadingRandomSpamMessageVisible(true);
-    try {
-      const response = await getRandomSpamMessage();
-      setTextContent(response.message);
-    } catch (e) {
-      console.error(e);
-    }
-    showLoadingRandomSpamMessageVisible(false);
+    toast.promise(
+      async () => {
+        try {
+          showLoadingRandomSpamMessageVisible(true);
+          const response = await getRandomSpamMessage();
+          setTextContent(response.message);
+        } catch (e) {
+          console.error(e);
+        }
+      },
+      {
+        loading: "Asking AI to generate a random text...",
+        success: () => {
+          showLoadingRandomSpamMessageVisible(false);
+          toast("Random text successfully generated.", {
+            type: "success",
+          });
+        },
+        error: () => {
+          toast("Error has happened. Please try again.", { type: "error" });
+        },
+      },
+    );
   }
 
   async function handleTextContentChange(event) {
@@ -83,7 +99,7 @@ export default function Form(props) {
 
   return (
     <>
-      <main
+      <div
         className={`flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 ${formVisible ? `visible` : `invisible`}`}
       >
         <div className="w-full max-w-md space-y-10">
@@ -97,7 +113,7 @@ export default function Form(props) {
             </p>
           </div>
           <form className="space-y-2" onSubmit={handleSubmit}>
-            <div class="pb-10">
+            <div className="pb-10">
               <label
                 className="mb-2 block text-gray-700 font-medium font-inter"
                 htmlFor="text"
@@ -135,18 +151,11 @@ export default function Form(props) {
               <Button className="w-full mb-4" type="submit">
                 Analyze
               </Button>
-              <p className="text-gray-500 text-xs font-mono">
-                The result may display inaccurate information, so please
-                double-check. If you have any questions, please{" "}
-                <Link href="mailto:ezra@lazuardy.tech" className="underline">
-                  contact me
-                </Link>
-                .
-              </p>
+              <Disclaimer />
             </div>
           </form>
         </div>
-      </main>
+      </div>
       <Loader show={loadingVisible} />
       <Error show={errorVisible} resetForm={resetForm} />
       <Result show={resultVisible} resetForm={resetForm} result={result} />

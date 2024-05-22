@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import { Toaster } from "@/components/ui/sonner";
 import "@/app/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -13,7 +14,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex flex-col min-h-screen bg-gray-100">{children}</div>
+        <main className="flex flex-col min-h-screen bg-gray-100">
+          {children}
+        </main>
+        <Toaster />
         <Analytics />
       </body>
     </html>

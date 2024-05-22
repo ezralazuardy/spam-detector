@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import ConfidenceRate from "@/components/confidence-rate";
+import Disclaimer from "@/components/disclaimer";
 import Link from "next/link";
 
 export default function Result(props) {
@@ -55,14 +56,7 @@ export default function Result(props) {
               {suggestion === "" ? "No suggestion available." : suggestion}
             </p>
           </div>
-          <p className="text-gray-500 text-xs font-mono">
-            The result above display inaccurate information, so please
-            double-check. If you have any questions, please{" "}
-            <Link href="mailto:ezra@lazuardy.tech" className="underline">
-              contact me
-            </Link>
-            .
-          </p>
+          <Disclaimer />
           <div>
             <DialogText text={input} />
             <Button className="w-full" onClick={resetForm}>
